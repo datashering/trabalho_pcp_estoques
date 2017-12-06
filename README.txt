@@ -43,6 +43,6 @@ criar gera_insta, scripts e afins.
 
 Sistemas de Strikes
 
--Vinícius: 0 
+-Vinícius: 1 (Caderno) 
 -Rafael: 0 (vou te liberar do strike do martin. Mas fica esperto)
 -Henrique: 0
