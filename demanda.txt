@@ -1,0 +1,4 @@
+Nessa nova simulacao coloquei comentarios gerais para facilitar a compreensao e criei dois pontos novos, uma demanda que 
+ira alterar no periodo PV (por exemplo 3) e para decidir se isso ocorrera ou nao criei uma variavel coin que determinara
+se a demanda sera a inicial ou se mudara para a nova demanda, com uma media e desvio padrao maiores, porem podemos alterar 
+isso também.
