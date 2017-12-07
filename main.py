@@ -2,64 +2,52 @@ import numpy as np
 import math
 
 if __name__ == "__main__":
-    
-    #Vetor de demandas
-    mu_d = 10000
-    sigma_d = 520
-    demanda = [int(v) for v in np.random.normal(mu_d, sigma_d, 96)]
-    
-    #parametros lead time
-    mu_l = 6
-    sigma_l = 2
-    
-    #parametros
-    cff = 100000
-    cvf = 100
-    cp = 50
-    i_rate = 0.2
-    
-    custos_totais = []
-    H = 96
-    faltante = [0 for i in range(H+1)]
-    h = [0 for i in range(H+1)]
-    h[0] = 60000
-    T = 6
-    E = 100000
-    
-    for t in range(H):
-        pedido = 0
-        if (demanda[t] > h[t]):
-            faltante[t] = demanda[t]-h[t]
-            h[t] = 0
-        else:
-            h[t] -= demanda[t]
 
-        if t % T == 0:
-            lead_time = round(np.random.normal(mu_l,sigma_l))
-            pedido = max(0, E - h[t])
-            print("pediu: {:d}".format(pedido))
-            if t + lead_time <= H:
-                h[t+lead_time] += pedido
+    #Dicionário que vai conter todos os parâmetros do problema
+    dados = {}
+
+    #parâmetros deterministicos
+    dados['H'] = 96         #horizonte de tempo (em semanas)
+    dados['Dt'] = 96000     #demanda total (média) em H 
+    dados['h0'] = 3000      #estoque inicial
+    dados['Cp'] = 50        #custo de compra de uma unidade
+    dados['Cs'] = 1000      #custo de pedido (setup)
+    dados['Cf'] = 10000     #custo fixo de faltante
+    dados['Cv'] = 100       #custo variavel de faltante
+    dados['i'] = 0.2        #taxa de interesse
+
+    #parâmetros de variáveis estocásticas
+    # X -> demanda semanal ~ N(mux,sx)
+    dados['mux'] = 1000
+    dados['sux'] = 50
+    # L -> lead-time ~ N(mul,sl)
+    dados['mul'] = 5
+    dados['sul'] = 1
+
+    ######### Otimização do custo total ###########
+    
+    melhor_E = 0    # E*
+    melhor_T = 0    # T*
+    melhor_custo = 100000000000000  # custo*
+
+    #testamos todos valores possiveis de T
+    for T in range(1,97):
+        #dado um T calculamos o E*
+        E = otimiza_E(dados,T)
         
-        custos = (pedido*cp, min(faltante[t]*cff, cff), faltante[t]*cvf)
-        custos_totais.append(custos)
+        #dados T e E* calculamos os custos
+        custo = custo_total(dados,E,T)
+        
+        if custos < melhor_custo:
+            #atualizamos E*, T* e custo*
+            melhor_E = E
+            melhor_T = T
+            melhor_custo = custo
 
-        print("iteração: {:d}".format(t))
-        print("demanda: {:d}".format(demanda[t]))
-        print("estoque: {:d}".format(h[t]))
-        print("faltante: {:d}".format(faltante[t]))
-        print("custos:{0}".format(custos,))
-        print("--------------------------------------------")
-        h[t+1] += h[t]
 
-    custo_estoque = (sum(h)/len(h))*cp*i_rate
-    custo_pedido = math.ceil(H/T)
-    custos_totais_sum = (sum([v[0] for v in custos_totais]), sum([v[1] for v in custos_totais]), sum([v[2] for v in custos_totais]))
+    ######### Simulação da poítica encontrada ########## 
 
-    CT = custo_estoque + custo_pedido + sum(custos_totais_sum)
-    print(CT)
-    print(custos_totais_sum)
-
+    # TO BE CONTINUE
 
     
 

@@ -1,0 +1,19 @@
+################################################################
+SUESTÃO:
+
+Com as formulas que a gente obteve no papel, da para calcular o
+E* (E ótimo) dado um T. Com isso a gente testa todos os T possí-
+veis e escolhe o mlehor. O scrip para isso está em main.py, mas
+falta fazer as funções que estão lá. Em um segundo momento a 
+gente simula o reultado desse otimização, e observa o comporta-
+mento dela quando imporevistos acontecem (Tipo a da demanda mu-
+da do nada). Por fim se der tempo a gente faz uma forma do E ser
+recalculado caso alguns parametros mudem no meio do horizonte 
+para o modelo ficar mais dinâmico. 
+
+O QUE DEVE SER FEITO:
+
+No primeiro momento temos que fazer as funções para rodar a oti-
+mização, mas da pra ir preparando a simulação em paralelo também
+
+################################################################
