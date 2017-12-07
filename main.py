@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from functions import *
 
 if __name__ == "__main__":
 
@@ -18,10 +19,10 @@ if __name__ == "__main__":
     #parâmetros de variáveis estocásticas
     # X -> demanda semanal ~ N(mux,sx)
     dados['mux'] = 1000
-    dados['sux'] = 50
+    dados['sx'] = 50
     # L -> lead-time ~ N(mul,sl)
     dados['mul'] = 5
-    dados['sul'] = 1
+    dados['sl'] = 1
 
     ######### Otimização do custo total ###########
     
@@ -37,11 +38,14 @@ if __name__ == "__main__":
         #dados T e E* calculamos os custos
         custo = custo_total(dados,E,T)
         
-        if custos < melhor_custo:
+        if custo < melhor_custo:
             #atualizamos E*, T* e custo*
             melhor_E = E
             melhor_T = T
             melhor_custo = custo
+
+    print(melhor_E, melhor_T, melhor_custo)
+
 
 
     ######### Simulação da poítica encontrada ########## 

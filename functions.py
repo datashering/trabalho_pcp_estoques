@@ -14,10 +14,10 @@ def otimiza_E(dados,T):
     """    
 
     #W -> demanda no T + L ~ Normal(muw,sw)
-    muw = (T + data['mul')]*data['mux']
-    sw = ( (T + data['mul'])*data['sx']**2 + data['mux']**2 * data['sx']**2 )**(1/2)
+    muw = (T + dados['mul'])*dados['mux']
+    sw = ( (T + dados['mul'])*dados['sx']**2 + dados['mux']**2 * dados['sx']**2 )**(1/2)
     
-    prob = 1 - (T*data['Cp']*data['i'])/(data['H']*data['Cv'])
+    prob = 1 - (T*dados['Cp']*dados['i'])/(dados['H']*dados['Cv'])
     E = st.norm.ppf(prob,muw,sw)
 
     return E
@@ -32,10 +32,19 @@ def custo_total(dados, E, T):
     E: Nível de estoque alvo
     T: Período de revisão definido
     """
-    
-    CT = (H*data['mux'] - data['h0'])*data['Cp'] + (E - data['mux']*data['mul'])*data['Cp']*data['i']/2 + \
-          data['H']/T*(data['Cs'] + RF*data['Cf'] + NMF*data['Cv'])
+    #W -> demanda no T + L ~ Normal(muw,sw)
+    muw = (T + dados['mul'])*dados['mux']
+    sw = ( (T + dados['mul'])*dados['sx']**2 + dados['mux']**2 * dados['sx']**2 )**(1/2)
 
+    #Rísco de faltante -> P(W > E)
+    RF = 1 - st.norm.cdf(E, muw, sw)
+
+    #Número médio de faltantes ->
+    NMF = (st.norm.pdf(E, muw, sw) - 1 + st.norm.cdf(E, muw, sw))*sw
+
+    CT = (dados['H']*dados['mux'] - dados['h0'])*dados['Cp'] + (E - dados['mux']*dados['mul'])*dados['Cp']*dados['i']/2 + \
+          (dados['H']/T)*(dados['Cs'] + RF*dados['Cf'] + NMF*dados['Cv'])
+    
     return CT
 
 
