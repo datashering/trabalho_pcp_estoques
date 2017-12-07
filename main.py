@@ -7,8 +7,7 @@ if __name__ == "__main__":
     dados = {}
 
     #parâmetros deterministicos
-    dados['H'] = 96         #horizonte de tempo (em semanas)
-    dados['Dt'] = 96000     #demanda total (média) em H 
+    dados['H'] = 96         #horizonte de tempo (em semanas) 
     dados['h0'] = 3000      #estoque inicial
     dados['Cp'] = 50        #custo de compra de uma unidade
     dados['Cs'] = 1000      #custo de pedido (setup)
