@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 def simula(dados, E, T, demanda):
 
@@ -13,9 +12,9 @@ def simula(dados, E, T, demanda):
     sl = dados['sl']
     muv = dados['muv']
     sv = dados['sv']
-    Cf = dados['Cf']
-    Cp = dados['Cp']
-    Cs = dados['Cs']
+    cff = dados['Cf']
+    cp = dados['Cp']
+    cs = dados['Cs']
     h[0] = dados['h0']
     i_rate = dados['i']
 
@@ -59,6 +58,22 @@ def simula(dados, E, T, demanda):
     #print(custos_totais_sum)
 
     return (CT)
+
+def gera_demanda(cenario, dados):
+
+    coin = [int(v) for v in np.random.binomial(1, dados['p'], dados['H'])]
+
+    if cenario == 1:
+        demanda = [int(v) for v in np.random.normal(dados['mux'], dados['sx'], H)]
+
+    else if cenario == 2:
+        demanda = [int(v) for v in (np.random.normal(dados['mux'], dados['sx'], H) + coin[v]*dados['pena'])]
+
+    else if cenario == 3:
+        demanda = [int(v) for v in (np.random.normal(dados['mux'], dados['sx'], H) - coin[v]*dados['pena'])]
+
+    return demanda
+
 
 
     
