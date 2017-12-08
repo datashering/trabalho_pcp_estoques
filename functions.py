@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-def simula(dados, E, T, demanda)
+def simula(dados, E, T, demanda):
 
     #Entradas do dicionario
     h = [0 for i in range(H+1)] 
