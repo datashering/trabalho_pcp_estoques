@@ -14,7 +14,6 @@ def simula(dados, E, T, demanda):
     muv = dados['muv']
     sv = dados['sv']
     cff = dados['Cf']
-    cvf = dados['Cv']
     cp = dados['Cp']
     cs = dados['Cs']
     h[0] = dados['h0']
@@ -40,7 +39,7 @@ def simula(dados, E, T, demanda):
             if t + lead_time <= H:
                 h[t+lead_time] += pedido
         
-        custos = (pedido*Cp, min(faltante[t]*Cf, Cf), faltante[t]*Cv)    #Tupula contendo os custos que variam com t
+        custos = (pedido*Cp, min(faltante[t]*Cf, Cf))                       #Tupula contendo os custos que variam com t
         custos_totais.append(custos)                                        #Valor dos custos totais que variam com t
 
         #print("iteração: {:d}".format(t))
@@ -53,13 +52,13 @@ def simula(dados, E, T, demanda):
 
     custo_estoque = (sum(h)/len(h))*Cp*i
     custo_pedido = math.ceil(H/T)*Cs
-    custos_totais_sum = (sum([v[0] for v in custos_totais]), sum([v[1] for v in custos_totais]), sum([v[2] for v in custos_totais]))
+    custos_totais_sum = (sum([v[0] for v in custos_totais]), sum([v[1] for v in custos_totais]))
 
     CT = custo_estoque + custo_pedido + sum(custos_totais_sum)
     #print(CT)
     #print(custos_totais_sum)
 
-    return (custos_totais_sum)
+    return (CT)
 
 
     
