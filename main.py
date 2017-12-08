@@ -11,13 +11,13 @@ if __name__ == "__main__":
     dados['h0'] = 3000      #estoque inicial
     dados['Cp'] = 50        #custo de compra de uma unidade
     dados['Cs'] = 500       #custo de pedido (setup)
-    dados['Cf'] = 10000     #custo fixo de faltante
+    dados['Cf'] = 100000    #custo fixo de faltante
     dados['Cv'] = 100       #custo variavel de faltante
     dados['i'] = 0.2        #taxa de interesse
 
     #parâmetros de variáveis estocásticas
     # X -> demanda semanal ~ N(mux,sx)
-    dados['mux'] = 1000
+    dados['mux'] = 100
     dados['sx'] = 50
     # L -> lead-time ~ N(mul,sl)
     dados['mul'] = 5
@@ -31,9 +31,10 @@ if __name__ == "__main__":
 
     #testamos todos valores possiveis de T
     for T in range(1, dados['H']+1):
+        
         #dado um T calculamos o E*
         E = otimiza_E(dados,T)
-        custo = custo_total(dados,E,T)
+        custo, RF = custo_total(dados,E,T)
         if E == False:
             break
 
@@ -42,19 +43,19 @@ if __name__ == "__main__":
             melhor_E = E
             melhor_T = T
             melhor_custo = custo
-
-    print(melhor_E, melhor_T, melhor_custo)
-
-
     ######### Simulação dos resultados ##########
     
     #>>>>> Cenário - 1: Situação normal
-    demanda = gera_demanda(1, dados)
     custos = []
     for i in range(100):
-        ct = simula(dados, E, T, demanda)
+        demanda = gera_demanda(1, dados)
+        ct = simula(dados, melhor_E+1000, melhor_T, demanda)
         custos.append(ct)
-    print(np.mean(custos))
+    
+    print("Otimização: {:f}".format(melhor_custo))
+    print("Simulação: {:f}".format(np.mean(custos)))
+
+    print(melhor_T, melhor_E)
 
     #>>>>> Cenário - 2: A média da demanda pode aumentar
     #demanda = gera_damanda(2, dados)

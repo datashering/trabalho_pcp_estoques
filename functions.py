@@ -19,16 +19,11 @@ def otimiza_E(dados,T):
     muw = (T + dados['mul'])*dados['mux']
     sw = sqrt(dados['mul']*dados['sx']**2 + dados['mux']**2 * dados['sl']**2 ) 
     
-    print("-----------------------------------------------------")
-    print(T)
-    print("Cp: {:f}     i: {:f}     T: {:f}     sqrt(2*pi): {:f}     sw: {:f}".format(dados['Cp'], dados['i'], T, sqrt(2*pi), sw))
-    print("Numerador: {:f}".format(2*dados['H']*dados['Cf']))
-    print("Denominador: {:f}".format(dados['Cp']*dados['i']*T*sqrt(2*pi)*sw))            
-    print("log calculado: {:f}".format(log((2*dados['H']*dados['Cf'])/(dados['Cp']*dados['i']*T*sqrt(2*pi)*sw)))) 
     if log((2*dados['H']*dados['Cf'])/(dados['Cp']*dados['i']*T*sqrt(2*pi)*sw)) < 0:
         return False 
+
     E = sqrt(2 * sw**2 * log((2*dados['H']*dados['Cf'])/(dados['Cp']*dados['i']*T*sqrt(2*pi)*sw))) + muw
-    print(E)
+
     return E
 
 def custo_total(dados, E, T):
@@ -49,11 +44,11 @@ def custo_total(dados, E, T):
     RF = 1 - st.norm.cdf(E, muw, sw)
     #print(RF)
 
-    CT = (dados['H']*dados['mux'] - dados['h0'])*dados['Cp'] + (E - dados['mux']*dados['mul'])*dados['Cp']*dados['i']/2 + \
-          (dados['H']/T)*(dados['Cs'] + RF*dados['Cf'])
-
+    CT = (dados['H']*dados['mux'] - dados['h0'])*dados['Cp'] + (E - dados['mux']*dados['mul'])/2 * dados['Cp']*dados['i'] + \
+          ceil(dados['H']/T)*(dados['Cs'] + RF*dados['Cf'])
     
-    return CT
+    
+    return CT, RF
 
 def simula(dados, E, T, demanda):
 
@@ -75,7 +70,6 @@ def simula(dados, E, T, demanda):
     faltante = [0 for i in range(H+1)]
     h = [0 for i in range(H+1)] 
     h[0] = dados['h0']
-
     for t in range(H):                                                      #Loop que define quanto sera pedido e se havera faltante
         
         pedido = 0
@@ -89,19 +83,13 @@ def simula(dados, E, T, demanda):
         if t % T == 0:
             lead_time = round(np.random.normal(mul, sl))
             pedido = max(0, E - h[t])
-            #print("pediu: {:d}".format(pedido))
+            
             if t + lead_time <= H:
                 h[t+lead_time] += pedido
         
         custos = (pedido*Cp, min(faltante[t]*Cf, Cf))                       #Tupula contendo os custos que variam com t
         custos_totais.append(custos)                                        #Valor dos custos totais que variam com t
 
-        #print("iteração: {:d}".format(t))
-        #print("demanda: {:d}".format(demanda[t]))
-        #print("estoque: {:d}".format(h[t]))
-        #print("faltante: {:d}".format(faltante[t]))
-        #print("custos:{0}".format(custos,))
-        #print("--------------------------------------------")
         h[t+1] += h[t]
 
     custo_estoque = (sum(h)/len(h))*Cp*i
@@ -109,8 +97,6 @@ def simula(dados, E, T, demanda):
     custos_totais_sum = (sum([v[0] for v in custos_totais]), sum([v[1] for v in custos_totais]))
 
     CT = custo_estoque + custo_pedido + sum(custos_totais_sum)
-    #print(CT)
-    #print(custos_totais_sum)
 
     return (CT)
 
@@ -123,9 +109,8 @@ def gera_demanda(cenario, dados):
     demanda = [0 for t in range(dados['H'])]
 
     if cenario == 1:
-        print("entrou")
+
         demanda = [int(v) for v in np.random.normal(dados['mux'], dados['sx'], dados['H'])]
-        print(demanda)
 
     elif cenario == 2:
         for t in range(dados['H']):
