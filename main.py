@@ -49,7 +49,7 @@ if __name__ == "__main__":
     ######### Simulação dos resultados ##########
     
     #>>>>> Cenário - 1: Situação normal
-    demanda = gera_damanda(1, dados)
+    demanda = gera_demanda(1, dados)
     custos = []
     for i in range(100):
         ct = simula(dados, E, T, demanda)
