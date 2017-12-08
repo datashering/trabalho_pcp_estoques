@@ -52,7 +52,7 @@ if __name__ == "__main__":
     #    ct = simula(dados, melhor_E, melhor_T, demanda)
     #    custos.append(ct)
 
-    testa_custo, testa_E, testa_T = modifica(dados,melhor_E,melhor_T,1)
+    testa_custo, testa_E, testa_T = modifica(dados,melhor_E,melhor_T,4)
 
     print("Otimização: {:f}, {:f}, {:f}".format(melhor_custo, melhor_T, melhor_E))
     print("Modifica: {:f}, {:f}, {:f}".format(testa_custo, testa_T, testa_E))

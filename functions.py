@@ -162,7 +162,7 @@ def gera_demanda(cenario, dados):
 def simula_100(dados,E,T, cenario):
     
     custos = []
-    for i in range(300):
+    for i in range(1000):
         demanda = gera_demanda(cenario,dados)
         custo = simula(dados,E,T,demanda)
         custos.append(custo)
