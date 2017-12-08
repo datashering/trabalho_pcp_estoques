@@ -3,7 +3,6 @@ import math
 from functions import *
 
 if __name__ == "__main__":
-
     #Dicionário que vai conter todos os parâmetros do problema
     dados = {}
 
@@ -31,15 +30,13 @@ if __name__ == "__main__":
     melhor_custo = 100000000000000  # custo*
 
     #testamos todos valores possiveis de T
-    for T in range(1,97):
+    for T in range(1, dados['H']+1):
         #dado um T calculamos o E*
         E = otimiza_E(dados,T)
+        custo = custo_total(dados,E,T)
         if E == False:
             break
-        
-        #dados T e E* calculamos os custos
-        custo = custo_total(dados,E,T)
-        
+
         if custo < melhor_custo:
             #atualizamos E*, T* e custo*
             melhor_E = E
@@ -49,11 +46,7 @@ if __name__ == "__main__":
     print(melhor_E, melhor_T, melhor_custo)
 
 
-
-    ######### Simulação da poítica encontrada ########## 
-
-    # TO BE CONTINUE
-
+    ######### Simulação dos resultados ##########
     
 
        
