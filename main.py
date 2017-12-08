@@ -51,11 +51,11 @@ if __name__ == "__main__":
     #    demanda = gera_demanda(1, dados)
     #    ct = simula(dados, melhor_E, melhor_T, demanda)
     #    custos.append(ct)
-    
-    print("Otimização: {:f}".format(melhor_custo))
-    #print("Simulação: {:f}".format(np.mean(custos)))
 
-    print(melhor_T, melhor_E)
+    testa_custo, testa_E, testa_T = modifica(dados,melhor_E,melhor_T,1)
+
+    print("Otimização: {:f}, {:f}, {:f}".format(melhor_custo, melhor_T, melhor_E))
+    print("Modifica: {:f}, {:f}, {:f}".format(testa_custo, testa_T, testa_E))
 
     #>>>>> Cenário - 2: A média da demanda pode aumentar
     #custos = []
@@ -66,12 +66,12 @@ if __name__ == "__main__":
     #print(np.mean(custos))
    
     #>>>>> Cenário - 3: A média da demenda pode diminuir
-    custos = []
-    for i in range(100):
-        demanda = gera_demanda(3, dados)
-        ct = simula(dados, melhor_E, melhor_T, demanda)
-        custos.append(ct)
-    print(np.mean(custos))
+    #custos = []
+    #for i in range(100):
+    #    demanda = gera_demanda(3, dados)
+    #    ct = simula(dados, melhor_E, melhor_T, demanda)
+    #    custos.append(ct)
+    #print(np.mean(custos))
    
     #>>>>> Cenário - 4: A média da demanda pode alterar para cima ou para baixo
     #custos = []

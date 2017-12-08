@@ -159,45 +159,50 @@ def gera_demanda(cenario, dados):
 
     return demanda
 
-def simula_100(dados,E,T, demanda):
+def simula_100(dados,E,T, cenario):
     
-    cutos = []
-    for i in range(100):
+    custos = []
+    for i in range(300):
+        demanda = gera_demanda(cenario,dados)
         custo = simula(dados,E,T,demanda)
         custos.append(custo)
     
     return sum(custos)/len(custos)
     
 
-def modifica(dados,E,T, demanda):
+def modifica(dados,E,T, cenario):
     
-    var_T = list(range(-10,11))
+    var_T = list(range(1,96))
     var_E = [round(0.05*i,2) for i in range(-10,11)]
     
     melhor_T = T
     melhor_E = E
-    melhor_custo = simula_100(dados, E, T, demanda)
-    for i in (1000)
-        chage = False
-        for i in range(21):
-            T_teste = T + var_T[i]
-            custo_medio = simula_100(dados, E, T_teste, demanda)
+    melhor_custo = simula_100(dados, E, T, cenario)
+    for i in range(1000):
+        change = False
+
+        for i in range(95):
+            T_teste = var_T[i]
+            custo_medio = simula_100(dados, melhor_E, T_teste, cenario)
             if custo_medio < melhor_custo:
+                print('T')
                 melhor_custo = custo_medio
                 melhor_T = T_teste
                 change = True
 
         for  i in range(21):
-            E_teste = E*var_E[i]
-            custo_medio = simula_100(dados, E_teste, T, demanda)
+            E_teste = E + E*var_E[i]
+            custo_medio = simula_100(dados, E_teste, melhor_T, cenario)
             if custo_medio < melhor_custo:
-                melhot_custo = custo_medio
-                melhor_E = E
+                print('E')
+                melhor_custo = custo_medio
+                melhor_E = E_teste
                 change = True
         
         if change == False:
             break
-
+    
+    return melhor_custo, melhor_E, melhor_T
 
 
 
