@@ -11,7 +11,7 @@ if __name__ == "__main__":
     dados['H'] = 96         #horizonte de tempo (em semanas) 
     dados['h0'] = 3000      #estoque inicial
     dados['Cp'] = 50        #custo de compra de uma unidade
-    dados['Cs'] = 1000      #custo de pedido (setup)
+    dados['Cs'] = 500       #custo de pedido (setup)
     dados['Cf'] = 10000     #custo fixo de faltante
     dados['Cv'] = 100       #custo variavel de faltante
     dados['i'] = 0.2        #taxa de interesse
@@ -34,6 +34,8 @@ if __name__ == "__main__":
     for T in range(1,97):
         #dado um T calculamos o E*
         E = otimiza_E(dados,T)
+        if E == False:
+            break
         
         #dados T e E* calculamos os custos
         custo = custo_total(dados,E,T)
