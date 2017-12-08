@@ -38,7 +38,7 @@ if __name__ == "__main__":
         #dados T e E* calculamos os custos
         custo = custo_total(dados,E,T)
         
-        if custos < melhor_custo:
+        if custo < melhor_custo:
             #atualizamos E*, T* e custo*
             melhor_E = E
             melhor_T = T
