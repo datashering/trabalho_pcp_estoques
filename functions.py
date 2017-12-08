@@ -116,15 +116,37 @@ def simula(dados, E, T, demanda):
 
 def gera_demanda(cenario, dados):
 
-    coin = [int(v) for v in np.random.binomial(1, dados['p'], dados['H'])]
+    prob = 0,10
+    mux_1 = dados['mux']
+    mux_2 = 1,15 * dados['mux']
+    mux_3 = 0,85 * dados['mux']
+    demanda = [0 for t in range('H')]
 
     if cenario == 1:
         demanda = [int(v) for v in np.random.normal(dados['mux'], dados['sx'], H)]
 
     elif cenario == 2:
-        demanda = [int(v) for v in (np.random.normal(dados['mux'], dados['sx'], H) + coin[v]*dados['pena'])]
+        for t in range(dados['H']):
+            coin = np.random.binomial(1, prob)
+            if(coin == 1):
+                demanda[t] = np.random.normal(mux_2, dados['sx'])
+                mux_aux = mux_1
+                mux_1 = mux_2
+                mux_2 = mux_aux
+            else:
+                demanda[t] = np.random.normal(mux_1, dados['sx'])
 
+    
     elif cenario == 3:
-        demanda = [int(v) for v in (np.random.normal(dados['mux'], dados['sx'], H) - coin[v]*dados['pena'])]
+        for t in range(dados['H']):
+            coin = np.random.binomial(1, prob)
+            if(coin == 1):
+                demanda[t] = np.random.normal(mux_3, dados['sx'])
+                mux_aux = mux_1
+                mux_1 = mux_3
+                mux_3 = mux_aux
+            else:
+                demanda[t] = np.random.normal(mux_1, dados['sx'])
 
     return demanda
+
