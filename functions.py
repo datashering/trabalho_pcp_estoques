@@ -154,8 +154,64 @@ def gera_demanda(cenario, dados):
                 mux_aux = mux_3
                 mux_1 = mux_3
                 mux_3 = mux_aux
-                
+        
 
 
     return demanda
+
+def simula_100(dados,E,T, demanda):
+    
+    cutos = []
+    for i in range(100):
+        custo = simula(dados,E,T,demanda)
+        custos.append(custo)
+    
+    return sum(custos)/len(custos)
+    
+
+def modifica(dados,E,T, demanda):
+    
+    var_T = list(range(-10,11))
+    var_E = [round(0.05*i,2) for i in range(-10,11)]
+    
+    melhor_T = T
+    melhor_E = E
+    melhor_custo = simula_100(dados, E, T, demanda)
+    for i in (1000)
+        chage = False
+        for i in range(21):
+            T_teste = T + var_T[i]
+            custo_medio = simula_100(dados, E, T_teste, demanda)
+            if custo_medio < melhor_custo:
+                melhor_custo = custo_medio
+                melhor_T = T_teste
+                change = True
+
+        for  i in range(21):
+            E_teste = E*var_E[i]
+            custo_medio = simula_100(dados, E_teste, T, demanda)
+            if custo_medio < melhor_custo:
+                melhot_custo = custo_medio
+                melhor_E = E
+                change = True
+        
+        if change == False:
+            break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
