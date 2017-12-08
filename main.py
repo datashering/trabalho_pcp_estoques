@@ -48,6 +48,37 @@ if __name__ == "__main__":
 
     ######### Simulação dos resultados ##########
     
+    #>>>>> Cenário - 1: Situação normal
+    demanda = gera_damanda(1, dados)
+    custos = []
+    for i in range(100):
+        ct = simula(dados, E, T, demanda)
+        custos.append(ct)
+    print(np.mean(custos))
+
+    #>>>>> Cenário - 2: A média da demanda pode aumentar
+    #demanda = gera_damanda(2, dados)
+    #custos = []
+    #for i in range(100):
+    #    ct = simula(dados, E, T, demanda)
+    #    custos.append(ct)
+    #print(np.mean(custos))
+   
+    #>>>>> Cenário - 3: A média da demenda pode diminuir
+    #demanda = gera_damanda(3, dados)
+    #custos = []
+    #for i in range(100):
+    #    ct = simula(dados, E, T, demanda)
+    #    custos.append(ct)
+    #print(np.mean(custos))
+  
+    #>>>>> Cenário - 4: A média da demanda pode alterar para cima ou para baixo
+    #demanda = gera_damanda(4, dados)
+    #custos = []
+    #for i in range(100):
+    #    ct = simula(dados, E, T, demanda)
+    #    custos.append(ct)
+    #print(np.mean(custos))
 
        
 
