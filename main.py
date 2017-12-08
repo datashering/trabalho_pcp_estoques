@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from functions import *
 
 if __name__ == "__main__":
 
@@ -7,11 +8,10 @@ if __name__ == "__main__":
     dados = {}
 
     #parâmetros deterministicos
-    dados['H'] = 96         #horizonte de tempo (em semanas)
-    dados['Dt'] = 96000     #demanda total (média) em H 
+    dados['H'] = 96         #horizonte de tempo (em semanas) 
     dados['h0'] = 3000      #estoque inicial
     dados['Cp'] = 50        #custo de compra de uma unidade
-    dados['Cs'] = 1000      #custo de pedido (setup)
+    dados['Cs'] = 500       #custo de pedido (setup)
     dados['Cf'] = 10000     #custo fixo de faltante
     dados['Cv'] = 100       #custo variavel de faltante
     dados['i'] = 0.2        #taxa de interesse
@@ -19,10 +19,10 @@ if __name__ == "__main__":
     #parâmetros de variáveis estocásticas
     # X -> demanda semanal ~ N(mux,sx)
     dados['mux'] = 1000
-    dados['sux'] = 50
+    dados['sx'] = 50
     # L -> lead-time ~ N(mul,sl)
     dados['mul'] = 5
-    dados['sul'] = 1
+    dados['sl'] = 1
 
     ######### Otimização do custo total ###########
     
@@ -34,6 +34,8 @@ if __name__ == "__main__":
     for T in range(1,97):
         #dado um T calculamos o E*
         E = otimiza_E(dados,T)
+        if E == False:
+            break
         
         #dados T e E* calculamos os custos
         custo = custo_total(dados,E,T)
@@ -43,6 +45,9 @@ if __name__ == "__main__":
             melhor_E = E
             melhor_T = T
             melhor_custo = custo
+
+    print(melhor_E, melhor_T, melhor_custo)
+
 
 
     ######### Simulação da poítica encontrada ########## 
