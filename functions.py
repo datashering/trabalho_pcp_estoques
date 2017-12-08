@@ -166,7 +166,7 @@ def gera_demanda(cenario, dados):
 
             elif(coin[2] == 1):
                 demanda[t] = np.random.normal(mux_3, dados['sx'])
-                mux_aux = mux_3
+                mux_aux = mux_1
                 mux_1 = mux_3
                 mux_3 = mux_aux
                 
