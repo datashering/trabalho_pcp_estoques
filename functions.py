@@ -3,7 +3,7 @@
 #===============================================
 import scipy.stats as st
 import numpy as np
-from math import sqrt, log, pi
+from math import sqrt, log, pi, ceil
 
 def otimiza_E(dados,T):
     """ 
@@ -58,7 +58,6 @@ def custo_total(dados, E, T):
 def simula(dados, E, T, demanda):
 
     #Entradas do dicionario
-    h = [0 for i in range(H+1)] 
     
     mux = dados['mux']                                                            #Media da demanda durante 1 semana (Periodo t)
     sx = dados['sx']                                                         #Desvio padrao da demanda durante 1 semana (Periodo t)
@@ -66,16 +65,17 @@ def simula(dados, E, T, demanda):
     mul = dados['mul']
     sl = dados['sl']
     #muv = dados['muv']
-    sv = dados['sv']
-    cff = dados['Cf']
-    cp = dados['Cp']
-    cs = dados['Cs']
-    h[0] = dados['h0']
-    i_rate = dados['i']
+    #sv = dados['sv']
+    Cf = dados['Cf']
+    Cp = dados['Cp']
+    Cs = dados['Cs']
+    i = dados['i']
 
     custos_totais = []  
     faltante = [0 for i in range(H+1)]
-    
+    h = [0 for i in range(H+1)] 
+    h[0] = dados['h0']
+
     for t in range(H):                                                      #Loop que define quanto sera pedido e se havera faltante
         
         pedido = 0
@@ -105,7 +105,7 @@ def simula(dados, E, T, demanda):
         h[t+1] += h[t]
 
     custo_estoque = (sum(h)/len(h))*Cp*i
-    custo_pedido = math.ceil(H/T)*Cs
+    custo_pedido = ceil(H/T)*Cs
     custos_totais_sum = (sum([v[0] for v in custos_totais]), sum([v[1] for v in custos_totais]))
 
     CT = custo_estoque + custo_pedido + sum(custos_totais_sum)
@@ -120,10 +120,12 @@ def gera_demanda(cenario, dados):
     mux_1 = dados['mux']
     mux_2 = 1,15 * dados['mux']
     mux_3 = 0,85 * dados['mux']
-    demanda = [0 for t in range('H')]
+    demanda = [0 for t in range(dados['H'])]
 
     if cenario == 1:
-        demanda = [int(v) for v in np.random.normal(dados['mux'], dados['sx'], H)]
+        print("entrou")
+        demanda = [int(v) for v in np.random.normal(dados['mux'], dados['sx'], dados['H'])]
+        print(demanda)
 
     elif cenario == 2:
         for t in range(dados['H']):
@@ -147,6 +149,28 @@ def gera_demanda(cenario, dados):
                 mux_3 = mux_aux
             else:
                 demanda[t] = np.random.normal(mux_1, dados['sx'])
+
+    elif cenario == 4:
+        for t in range(dados['H']):
+
+            coin = np.random.multinomial(1, 0.80 + prob * 2)
+
+            if(coin[0] == 1):
+                demanda[t] = np.random.normal(mux_1, dados['sx'])
+
+            elif(coin[1] == 1):
+                demanda[t] = np.random.normal(mux_2, dados['sx'])
+                mux_aux = mux_1
+                mux_1 = mux_2
+                mux_2 = mux_aux
+
+            elif(coin[2] == 1):
+                demanda[t] = np.random.normal(mux_3, dados['sx'])
+                mux_aux = mux_3
+                mux_1 = mux_3
+                mux_3 = mux_aux
+                
+
 
     return demanda
 
