@@ -138,7 +138,7 @@ def gera_demanda(cenario, dados):
     elif cenario == 4:
         for t in range(dados['H']):
 
-            coin = np.random.multinomial(1, 1-prob + prob * 2,size=None)
+            coin = np.random.multinomial(1, [1-prob] + [prob] + [prob])
 
             if(coin[0] == 1):
                 demanda[t] = np.random.normal(mux_1, dados['sx'])

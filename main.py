@@ -66,20 +66,20 @@ if __name__ == "__main__":
     #print(np.mean(custos))
    
     #>>>>> Cenário - 3: A média da demenda pode diminuir
-    custos = []
-    for i in range(100):
-        demanda = gera_demanda(3, dados)
-        ct = simula(dados, melhor_E, melhor_T, demanda)
-        custos.append(ct)
-    print(np.mean(custos))
-   
-    #>>>>> Cenário - 4: A média da demanda pode alterar para cima ou para baixo
     #custos = []
     #for i in range(100):
-    #    demanda = gera_demanda(4, dados)
+    #    demanda = gera_demanda(3, dados)
     #    ct = simula(dados, melhor_E, melhor_T, demanda)
     #    custos.append(ct)
     #print(np.mean(custos))
+   
+    #>>>>> Cenário - 4: A média da demanda pode alterar para cima ou para baixo
+    custos = []
+    for i in range(100):
+        demanda = gera_demanda(4, dados)
+        ct = simula(dados, melhor_E, melhor_T, demanda)
+        custos.append(ct)
+    print(np.mean(custos))
  
    
    
