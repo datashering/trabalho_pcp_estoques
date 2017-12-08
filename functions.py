@@ -102,10 +102,10 @@ def simula(dados, E, T, demanda):
 
 def gera_demanda(cenario, dados):
 
-    prob = 0,10
+    prob = 0.10
     mux_1 = dados['mux']
-    mux_2 = 1,15 * dados['mux']
-    mux_3 = 0,85 * dados['mux']
+    mux_2 = 1.15 * dados['mux']
+    mux_3 = 0.85 * dados['mux']
     demanda = [0 for t in range(dados['H'])]
 
     if cenario == 1:
@@ -138,7 +138,7 @@ def gera_demanda(cenario, dados):
     elif cenario == 4:
         for t in range(dados['H']):
 
-            coin = np.random.multinomial(1, 0.80 + prob * 2)
+            coin = np.random.multinomial(1, 1-prob + prob * 2,size=None)
 
             if(coin[0] == 1):
                 demanda[t] = np.random.normal(mux_1, dados['sx'])
