@@ -13,9 +13,9 @@ def simula(dados, E, T, demanda):
     sl = dados['sl']
     muv = dados['muv']
     sv = dados['sv']
-    cff = dados['Cf']
-    cp = dados['Cp']
-    cs = dados['Cs']
+    Cf = dados['Cf']
+    Cp = dados['Cp']
+    Cs = dados['Cs']
     h[0] = dados['h0']
     i_rate = dados['i']
 
