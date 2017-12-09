@@ -5,7 +5,7 @@ from functions import *
 if __name__ == "__main__":
     #Dicionário que vai conter todos os parâmetros do problema
     dados = {}
-
+    
     #parâmetros deterministicos
     dados['H'] = 96         #horizonte de tempo (em semanas) 
     dados['h0'] = 2000      #estoque inicial
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     dados['Cf'] = 100000    #custo fixo de faltante
     #dados['Cv'] = 100       #custo variavel de faltante
     dados['i'] = 0.2        #taxa de interesse
-
+    
     #parâmetros de variáveis estocásticas
     # X -> demanda semanal ~ N(mux,sx)
     dados['mux'] = 100
@@ -22,8 +22,8 @@ if __name__ == "__main__":
     # L -> lead-time ~ N(mul,sl)
     dados['mul'] = 5
     dados['sl'] = 1
-
-    ######### Otimização do custo total ###########
+   
+   ######### Otimização do custo total ###########
     
     melhor_E = 0    # E*
     melhor_T = 0    # T*
@@ -66,6 +66,7 @@ if __name__ == "__main__":
     #print(np.mean(custos))
    
     #>>>>> Cenário - 3: A média da demenda pode diminuir
+
     #custos = []
     #for i in range(100):
     #    demanda = gera_demanda(3, dados)
@@ -74,23 +75,11 @@ if __name__ == "__main__":
     #print(np.mean(custos))
    
     #>>>>> Cenário - 4: A média da demanda pode alterar para cima ou para baixo
+    
     #custos = []
     #for i in range(100):
-    #    demanda = gera_demanda(4, dados)
+    #    demanda = gera_demanda(3, dados)
     #    ct = simula(dados, melhor_E, melhor_T, demanda)
     #    custos.append(ct)
     #print(np.mean(custos))
- 
-   
-   
-
-       
-
-
-    
-
-
-
-
-    
 
